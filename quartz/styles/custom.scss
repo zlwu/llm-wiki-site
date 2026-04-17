@@ -3,6 +3,23 @@
 // Site-level mobile overrides only. Do not modify Quartz core styles.
 .page {
   > #quartz-body {
+    .sidebar.left {
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+    }
+
+    .sidebar.left::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .sidebar.left::-webkit-scrollbar-thumb {
+      background: var(--lightgray);
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
     @media all and (max-width: 800px) {
       grid-template-areas:
         "grid-sidebar-left"
@@ -32,6 +49,7 @@
         flex-wrap: nowrap;
         background: var(--light);
         border-bottom: 1px solid var(--lightgray);
+        overflow-y: visible;
       }
 
       .sidebar.left > .spacer,
