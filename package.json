@@ -1,6 +1,6 @@
 {
   "name": "llm-wiki-site",
-  "description": "Leo 的 LLM Wiki Quartz 静态站",
+  "description": "随手记 Quartz 静态站",
   "private": true,
   "version": "4.5.2",
   "type": "module",

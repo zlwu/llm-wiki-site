@@ -1,3 +1,3 @@
-# LLM Wiki Site
+# 随手记
 
-Quartz static site for Leo LLM Wiki. Source content is pulled from `zlwu/leo-llm-wiki` during build.
+Quartz static site for 随手记. Source content is pulled from `zlwu/leo-llm-wiki` during build.

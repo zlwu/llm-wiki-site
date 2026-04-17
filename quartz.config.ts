@@ -3,7 +3,7 @@ import * as Plugin from "./quartz/plugins"
 
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Leo 的 LLM Wiki",
+    pageTitle: "随手记",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
