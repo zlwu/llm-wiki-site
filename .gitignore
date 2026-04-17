@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+public/
+.quartz-cache/
+
+# Generated checkout
+source/
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
