@@ -1,3 +1,64 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// Site-level mobile overrides only. Do not modify Quartz core styles.
+.page {
+  > #quartz-body {
+    @media all and (max-width: 800px) {
+      grid-template-areas:
+        "grid-header"
+        "grid-center"
+        "grid-sidebar-left"
+        "grid-sidebar-right"
+        "grid-footer";
+      grid-template-rows: auto auto auto auto auto;
+
+      .page-header {
+        margin-top: 0.75rem;
+      }
+
+      .center > article {
+        margin-top: 0;
+      }
+
+      .sidebar.left {
+        position: static;
+        height: auto;
+        padding: 0.5rem 0 0 0;
+        gap: 0.75rem;
+        align-items: stretch;
+        flex-wrap: wrap;
+      }
+
+      .sidebar.left > .page-title,
+      .sidebar.left > .explorer,
+      .sidebar.left > .flex-component {
+        width: 100%;
+      }
+
+      .sidebar.left > .recent-notes,
+      .sidebar.right {
+        display: none;
+      }
+
+      .sidebar.left > .flex-component {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .search-button,
+      .darkmode,
+      .explorer .mobile-explorer {
+        min-width: 44px;
+        min-height: 44px;
+      }
+
+      .darkmode,
+      .explorer .mobile-explorer {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

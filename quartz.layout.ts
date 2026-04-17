@@ -33,11 +33,10 @@ export const defaultContentPageLayout: PageLayout = {
           grow: true,
         },
         { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
       ],
     }),
     Component.Explorer(),
-    Component.RecentNotes({ limit: 8 }),
+    Component.DesktopOnly(Component.RecentNotes({ limit: 8 })),
   ],
   right: [Component.DesktopOnly(Component.TableOfContents()), Component.Backlinks()],
 }
@@ -57,7 +56,7 @@ export const defaultListPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer(),
-    Component.RecentNotes({ limit: 8 }),
+    Component.DesktopOnly(Component.RecentNotes({ limit: 8 })),
   ],
   right: [],
 }
