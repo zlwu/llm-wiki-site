@@ -1,3 +1,31 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+@media all and (max-width: 800px) {
+  .page > #quartz-body {
+    .sidebar.left {
+      gap: 0.5rem;
+    }
+
+    .sidebar.left .search {
+      width: auto;
+      flex: 0 0 auto;
+    }
+
+    .sidebar.left .search-button {
+      width: 44px;
+      min-width: 44px;
+      height: 44px;
+      min-height: 44px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    .sidebar.left .search-button p {
+      display: none;
+    }
+
+    .sidebar.left .search-button svg {
+      margin: 0;
+    }
+  }
+}
