@@ -91,6 +91,28 @@
       display: none;
     }
 
+    > #quartz-body > .center > .page-header {
+      margin-top: 0.5rem;
+    }
+
+    > #quartz-body > .center > .page-header .breadcrumb-container,
+    > #quartz-body > .center > .page-header .tags {
+      display: none;
+    }
+
+    > #quartz-body > .center > .page-header .article-title {
+      margin-top: 0;
+      margin-bottom: 0.25rem;
+      font-size: 1.75rem;
+      line-height: 1.25;
+    }
+
+    > #quartz-body > .center > .page-header .content-meta {
+      margin-top: 0;
+      opacity: 0.75;
+      font-size: 0.95rem;
+    }
+
     > #quartz-body > .center article > h1:first-child {
       margin-top: 0.25rem;
     }
