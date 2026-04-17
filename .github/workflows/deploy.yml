@@ -33,6 +33,7 @@ jobs:
           repository: zlwu/leo-llm-wiki
           path: source
           fetch-depth: 0
+          token: ${{ secrets.WIKI_SOURCE_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
