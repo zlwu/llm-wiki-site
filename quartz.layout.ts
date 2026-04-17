@@ -47,7 +47,24 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Explorer(),
     Component.DesktopOnly(Component.RecentNotes({ limit: 8 })),
   ],
-  right: [Component.DesktopOnly(Component.TableOfContents()), Component.Backlinks()],
+  right: [
+    Component.DesktopOnly(Component.TableOfContents()),
+    Component.DesktopOnly(
+      Component.Graph({
+        localGraph: {
+          depth: 1,
+          showTags: false,
+          focusOnHover: true,
+        },
+        globalGraph: {
+          showTags: false,
+          focusOnHover: true,
+          enableRadial: true,
+        },
+      }),
+    ),
+    Component.Backlinks(),
+  ],
 }
 
 export const defaultListPageLayout: PageLayout = {
