@@ -8,9 +8,40 @@ const SOURCE_ROOT = path.resolve(ROOT, process.env.WIKI_SOURCE_DIR || "source")
 const CONTENT_DIR = path.join(ROOT, "content")
 const SOURCE_DIRS = ["raw", "concepts", "entities", "comparisons", "queries"]
 const ROOT_FILES = ["index.md"]
+const FOLDER_METADATA = {
+  raw: {
+    title: "来源笔记",
+    description: "单一来源视角的整理页，保留来源信息、原文事实、结构化整理与 Hermes 提炼。",
+  },
+  "raw/articles": {
+    title: "文章来源笔记",
+    description: "来自博客、长文、官方文章等单一来源的整理笔记。",
+  },
+  "raw/papers": {
+    title: "论文来源笔记",
+    description: "来自论文与技术报告的来源笔记，优先采用三层结构整理。",
+  },
+  concepts: {
+    title: "概念",
+    description: "跨来源综合后的概念页，回答某个概念是什么、为什么重要、如何与其他主题关联。",
+  },
+  entities: {
+    title: "实体",
+    description: "人物、公司、实验室、产品和框架等实体页。",
+  },
+  comparisons: {
+    title: "对比",
+    description: "对关键路线、方法或系统的结构化对比。",
+  },
+  queries: {
+    title: "问题沉淀",
+    description: "值得保留的问题分析与系统回答。",
+  },
+}
 
 const warnings = []
 const publishedFiles = []
+const generatedFolderIndexes = new Set()
 
 async function main() {
   await fs.rm(CONTENT_DIR, { recursive: true, force: true })
@@ -29,6 +60,8 @@ async function main() {
   for (const dir of SOURCE_DIRS) {
     await walkAndProcess(dir)
   }
+
+  await ensureFolderIndexes()
 
   const summary = {
     generatedAt: new Date().toISOString(),
@@ -156,6 +189,32 @@ async function processMarkdownFile(fullPath, relativePath, topLevel) {
   const rendered = `---\n${yaml.dump(outputFrontmatter, { lineWidth: 1000, noRefs: true }).trimEnd()}\n---\n\n${body}\n`
   await fs.writeFile(destPath, rendered, "utf8")
   publishedFiles.push(relativePath)
+
+  if (path.basename(relativePath).toLowerCase() === "index.md") {
+    generatedFolderIndexes.add(path.dirname(relativePath) === "." ? "" : path.dirname(relativePath))
+  }
+}
+
+async function ensureFolderIndexes() {
+  for (const [folder, meta] of Object.entries(FOLDER_METADATA)) {
+    if (generatedFolderIndexes.has(folder)) continue
+    const destPath = path.join(CONTENT_DIR, folder, "index.md")
+    await fs.mkdir(path.dirname(destPath), { recursive: true })
+    const frontmatter = {
+      title: meta.title,
+      description: meta.description,
+      tags: [],
+      type: "summary",
+      publish: true,
+      draft: false,
+      created: new Date().toISOString().slice(0, 10),
+      updated: new Date().toISOString().slice(0, 10),
+    }
+    const body = `# ${meta.title}\n\n${meta.description}\n`
+    const rendered = `---\n${yaml.dump(frontmatter, { lineWidth: 1000, noRefs: true }).trimEnd()}\n---\n\n${body}`
+    await fs.writeFile(destPath, rendered, "utf8")
+    publishedFiles.push(path.join(folder, "index.md"))
+  }
 }
 
 async function copyStaticFile(fullPath, relativePath) {

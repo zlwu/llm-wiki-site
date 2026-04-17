@@ -8,9 +8,6 @@ public/
 # Generated checkout
 source/
 
-# Generated content
-content/
-
 # Editors / OS
 .DS_Store
 Thumbs.db
