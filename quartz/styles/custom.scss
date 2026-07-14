@@ -1,5 +1,27 @@
 @use "./base.scss";
 
+// === 侧边栏 Explorer 标题截断 ===
+// 文件链接（论文笔记等）
+.explorer-content ul li > a {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: top;
+}
+
+// 文件夹标题（来源笔记、概念等）
+.explorer-content .folder-container div > a,
+.explorer-content .folder-container div > button span {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: top;
+}
+
 @media all and (max-width: 800px) {
   .page > #quartz-body {
     .sidebar.left {
@@ -26,6 +48,16 @@
 
     .sidebar.left .search-button svg {
       margin: 0;
+    }
+
+    // 移动端侧边栏
+    .explorer-content ul li > a {
+      max-width: 180px;
+    }
+
+    .explorer-content .folder-container div > a,
+    .explorer-content .folder-container div > button span {
+      max-width: 140px;
     }
   }
 }
