@@ -40,6 +40,7 @@ const FOLDER_METADATA = {
 }
 
 const warnings = []
+let duplicateTitleCount = 0
 const publishedFiles = []
 const generatedFolderIndexes = new Set()
 
@@ -68,6 +69,7 @@ async function main() {
     sourceRoot: SOURCE_ROOT,
     publishedCount: publishedFiles.length,
     warnings,
+    hasDuplicateTitleWarnings: duplicateTitleCount > 0,
     publishedFiles,
   }
 
@@ -83,6 +85,11 @@ async function main() {
     for (const warning of warnings) {
       console.warn(`- ${warning}`)
     }
+  }
+
+  if (duplicateTitleCount > 0) {
+    console.error(`\n❌ ${duplicateTitleCount} duplicate H1 title(s) found. Fix them before deployment.`)
+    process.exit(1)
   }
 }
 
@@ -152,6 +159,10 @@ async function processMarkdownFile(fullPath, relativePath, topLevel) {
 
   if (type === "source") {
     validateSourceStructure(relativePath, body, data.source_url)
+  }
+
+  if (["concept", "entity", "comparison", "query"].includes(type)) {
+    checkDuplicateTitle(relativePath, title, body)
   }
 
   const outputFrontmatter = {
@@ -374,6 +385,23 @@ function collapseWhitespace(text) {
 
 function escapeRegExp(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+}
+
+/**
+ * Check if the first H1 in the body duplicates the frontmatter title.
+ * Quartz ArticleTitle already renders the title, so a matching H1 creates
+ * a visible duplicate heading on the page.
+ */
+function checkDuplicateTitle(relativePath, title, body) {
+  const match = body.match(/^#\s+(.+)$/m)
+  if (!match) return
+  const h1 = match[1].trim()
+
+  // Exact match or prefix match (e.g. "递归自我改进" vs "递归自我改进（Recursive Self-Improvement）")
+  if (h1 === title || title.startsWith(h1) || h1.startsWith(title)) {
+    duplicateTitleCount++
+    warnings.push(`${relativePath}: 正文 H1「${h1}」与 frontmatter title「${title}」重复——请去掉正文中的 H1（Quartz 自动渲染）`)
+  }
 }
 
 main().catch((error) => {
