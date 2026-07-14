@@ -1,7 +1,8 @@
 @use "./base.scss";
 
-// === 侧边栏 Explorer 标题截断 ===
-// 文件链接（论文笔记等）
+// === 侧边栏 Explorer 标题截断 + 悬浮 tooltip ===
+
+// 文件链接（论文笔记等）——截断
 .explorer-content ul li > a {
   max-width: 220px;
   overflow: hidden;
@@ -9,9 +10,40 @@
   white-space: nowrap;
   display: inline-block;
   vertical-align: top;
+
+  // Tooltip：悬停 1.2s 后显示完整标题
+  position: relative;
+  &::after {
+    content: attr(title);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 100;
+    background: var(--light);
+    color: var(--dark);
+    border: 1px solid var(--lightgray);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    font-weight: normal;
+    white-space: nowrap;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.15s ease 1.2s, transform 0.15s ease 1.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-// 文件夹标题（来源笔记、概念等）
+// 文件夹标题——截断
 .explorer-content .folder-container div > a,
 .explorer-content .folder-container div > button span {
   max-width: 180px;
@@ -20,6 +52,41 @@
   white-space: nowrap;
   display: inline-block;
   vertical-align: top;
+}
+
+// 文件夹标题悬浮 tooltip
+.explorer-content .folder-container div > a,
+.explorer-content .folder-container div > button {
+  position: relative;
+
+  &::after {
+    content: attr(title);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 100;
+    background: var(--light);
+    color: var(--dark);
+    border: 1px solid var(--lightgray);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    font-weight: normal;
+    white-space: nowrap;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.15s ease 1.2s, transform 0.15s ease 1.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media all and (max-width: 800px) {
@@ -50,7 +117,6 @@
       margin: 0;
     }
 
-    // 移动端侧边栏
     .explorer-content ul li > a {
       max-width: 180px;
     }
